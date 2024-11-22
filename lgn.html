@@ -448,12 +448,41 @@
         .logo:hover + .logo-indicator {
             opacity: 1;
         }
+
+        .outro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            background-color: inherit;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .outro.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .outro.hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div class="intro">
         <img src="logo.webp" alt="Logo" class="intro-logo">
         <div class="intro-text">HELLS VAULT</div>
+    </div>
+
+    <div class="outro hidden">
+        <img src="logo.webp" alt="Logo" class="intro-logo">
+        <div class="intro-text"></div>
     </div>
 
     <img src="logo.webp" alt="Logo" class="logo">
@@ -525,14 +554,48 @@
         async function handleLogin(event) {
             event.preventDefault();
             
+            const validCredentials = {
+                'kronos': '#hv_7Kj9mN2vX5pL3qR',
+                '7puq': '#hv_4wF8qA3hN6tB9cE',
+                'burn': '#hv_hJ4tB8cE2nL6aD9'
+            };
+            
             const token = document.getElementById('login-token').value;
-            const validToken = "#hv_7Kj9mN2vX5pL3qR";
-            const validUsername = "kronos"; // Username associated with valid token
 
             try {
-                if (token === validToken) {
+                // Find username by token
+                const username = Object.entries(validCredentials).find(([_, t]) => t === token)?.[0];
+                
+                if (username) {
                     console.log('Login successful');
-                    window.location.href = 'dsh.html';
+                    
+                    // Hide main content
+                    const mainLogo = document.querySelector('.logo');
+                    const themeToggle = document.querySelector('.theme-toggle');
+                    const containers = document.querySelectorAll('.container');
+                    
+                    mainLogo.classList.remove('visible');
+                    themeToggle.classList.remove('visible');
+                    containers.forEach(container => container.classList.remove('visible'));
+
+                    // Show outro animation
+                    const outro = document.querySelector('.outro');
+                    const outroLogo = outro.querySelector('.intro-logo');
+                    const outroText = outro.querySelector('.intro-text');
+                    
+                    outro.classList.remove('hidden');
+                    setTimeout(() => {
+                        outro.classList.add('visible');
+                        outroLogo.style.transform = 'translateX(-135px)';
+                        outroText.textContent = `Welcome, ${username}`;
+                        outroText.style.opacity = '1';
+                        outroText.style.transform = 'translateX(0)';
+                        
+                        // Redirect after animation
+                        setTimeout(() => {
+                            window.location.href = 'dsh.html';
+                        }, 1500);
+                    }, 100);
                 } else {
                     throw new Error('Invalid token');
                 }
@@ -545,14 +608,18 @@
         async function handleRegister(event) {
             event.preventDefault();
             
+            const validCredentials = {
+                'kronos': '#hv_7Kj9mN2vX5pL3qR',
+                '7puq': '#hv_4wF8qA3hN6tB9cE',
+                'burn': '#hv_hJ4tB8cE2nL6aD9'
+            };
+            
             const username = document.getElementById('register-username').value;
-            const validUsername = "kronos";
-            const validToken = "#hv_7Kj9mN2vX5pL3qR";
 
             try {
-                if (username === validUsername) {
+                if (username in validCredentials) {
                     console.log('Registration successful for username:', username);
-                    alert(`Your access token is: ${validToken}\nPlease save this token safely!`);
+                    alert(`Your access token is: ${validCredentials[username]}\nPlease save this token safely!`);
                     window.location.href = 'dsh.html';
                 } else {
                     throw new Error('Invalid username');
