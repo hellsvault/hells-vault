@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/webp" href="logo.webp">
+    <title>[HV] Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+        }
+
+        body {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            line-height: 1.5;
+        }
+
+        body.light-theme {
+            background-color: #ffffff;
+            color: #24292e;
+        }
+
+        body.red-theme {
+            background-color: #1a0f0f;
+            color: #ffd9d9;
+        }
+
+        body.green-theme {
+            background-color: #0f1a0f;
+            color: #d9ffd9;
+        }
+
+        body.midnight-theme {
+            background-color: #1a0f24;
+            color: #e6d9ff;
+        }
+
+        body.orange-theme {
+            background-color: #1a1205;
+            color: #ffe6cc;
+        }
+
+        .header {
+            padding: 16px;
+            background-color: #161b22;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .light-theme .header {
+            background-color: #ffffff;
+            border-bottom-color: #e1e4e8;
+        }
+
+        .red-theme .header {
+            background-color: #221515;
+            border-bottom-color: #3d3030;
+        }
+
+        .green-theme .header {
+            background-color: #152215;
+            border-bottom-color: #303d30;
+        }
+
+        .midnight-theme .header {
+            background-color: #2a1f33;
+            border-bottom-color: #3d304d;
+        }
+
+        .orange-theme .header {
+            background-color: #221810;
+            border-bottom-color: #3d2b1c;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .main-content {
+            max-width: 308px;
+            margin: 0 auto;
+            padding: 32px 0;
+        }
+
+        .form-container {
+            padding: 16px;
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            margin-bottom: 16px;
+        }
+
+        .light-theme .form-container {
+            background-color: #ffffff;
+            border-color: #e1e4e8;
+        }
+
+        .red-theme .form-container {
+            background-color: #221515;
+            border-color: #3d3030;
+        }
+
+        .green-theme .form-container {
+            background-color: #152215;
+            border-color: #303d30;
+        }
+
+        .midnight-theme .form-container {
+            background-color: #2a1f33;
+            border-color: #3d304d;
+        }
+
+        .orange-theme .form-container {
+            background-color: #221810;
+            border-color: #3d2b1c;
+        }
+
+        .form-header {
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .form-header h1 {
+            font-size: 24px;
+            font-weight: 300;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 400;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 5px 12px;
+            font-size: 14px;
+            line-height: 20px;
+            color: #c9d1d9;
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            outline: none;
+            transition: border-color 0.15s ease-in-out, background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .light-theme input {
+            color: #24292e;
+            background-color: #ffffff;
+            border-color: #e1e4e8;
+        }
+
+        .red-theme input {
+            color: #ffd9d9;
+            background-color: #1a0f0f;
+            border-color: #3d3030;
+        }
+
+        .green-theme input {
+            color: #d9ffd9;
+            background-color: #0f1a0f;
+            border-color: #303d30;
+        }
+
+        .midnight-theme input {
+            color: #e6d9ff;
+            background-color: #1a0f24;
+            border-color: #3d304d;
+        }
+
+        .orange-theme input {
+            color: #ffe6cc;
+            background-color: #1a1205;
+            border-color: #3d2b1c;
+        }
+
+        input:focus {
+            border-color: #58a6ff;
+            box-shadow: 0 0 0 3px rgba(88,166,255,0.3);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 5px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 20px;
+            white-space: nowrap;
+            vertical-align: middle;
+            cursor: pointer;
+            user-select: none;
+            border: 1px solid;
+            border-radius: 6px;
+            appearance: none;
+            color: #ffffff;
+            background-color: #238636;
+            border-color: rgba(240,246,252,0.1);
+            box-shadow: 0 0 transparent;
+            transition: .2s cubic-bezier(0.3, 0, 0.5, 1);
+            width: 100%;
+        }
+
+        .btn:hover {
+            background-color: #2ea043;
+            border-color: rgba(240,246,252,0.1);
+            transition-duration: .1s;
+        }
+
+        .switch-form {
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .switch-form a {
+            color: #58a6ff;
+            text-decoration: none;
+        }
+
+        .switch-form a:hover {
+            text-decoration: underline;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            padding: 8px;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+
+        .theme-toggle:hover {
+            background-color: rgba(177, 186, 196, 0.12);
+        }
+
+        .theme-indicator {
+            position: absolute;
+            top: 60px;
+            right: 16px;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .theme-toggle:hover + .theme-indicator {
+            opacity: 1;
+        }
+
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <img src="logo.webp" alt="Logo" class="logo">
+            <span class="logo-text">HELLS VAULT</span>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+        <div class="theme-indicator" id="theme-indicator">Dark Theme</div>
+    </header>
+
+    <main class="main-content">
+        <div id="login-form">
+            <div class="form-container">
+                <div class="form-header">
+                    <h1>Enter Token</h1>
+                </div>
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="login-token">Access Token</label>
+                        <input type="text" id="login-token" required>
+                    </div>
+                    <button type="submit" class="btn">Check Token</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="register-form" style="display: none;">
+            <div class="form-container">
+                <div class="form-header">
+                    <h1>Get Token</h1>
+                </div>
+                <form id="registerForm" onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label for="register-username">Desired Username</label>
+                        <input type="text" id="register-username" required>
+                    </div>
+                    <button type="submit" class="btn">Get Token</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const themes = ['dark', 'light', 'red', 'green', 'midnight', 'orange'];
+        const themeNames = {
+            'dark': 'Dark',
+            'light': 'Light', 
+            'red': 'Blood',
+            'green': 'Forest',
+            'midnight': 'Dusk',
+            'orange': 'Dawn'
+        };
+        const themeEmojis = {
+            'dark': '🌙',
+            'light': '☀️',
+            'red': '🩸',
+            'green': '🌳',
+            'midnight': '🌆',
+            'orange': '🌄'
+        };
+        let currentThemeIndex = themes.indexOf(localStorage.getItem('theme') || 'dark');
+
+        // Apply saved theme on page load
+        if (currentThemeIndex !== 0) {
+            const savedTheme = themes[currentThemeIndex];
+            document.body.classList.add(`${savedTheme}-theme`);
+            document.getElementById('theme-indicator').textContent = themeNames[savedTheme] + ' Theme';
+            document.querySelector('.theme-toggle').textContent = themeEmojis[savedTheme];
+        }
+
+        function toggleTheme() {
+            document.body.classList.remove('light-theme', 'red-theme', 'green-theme', 'midnight-theme', 'orange-theme');
+            
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+            const newTheme = themes[currentThemeIndex];
+            
+            if (newTheme !== 'dark') {
+                document.body.classList.add(`${newTheme}-theme`);
+            }
+            
+            const themeIndicator = document.getElementById('theme-indicator');
+            themeIndicator.textContent = themeNames[newTheme] + ' Theme';
+            document.querySelector('.theme-toggle').textContent = themeEmojis[newTheme];
+            localStorage.setItem('theme', newTheme);
+        }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const validCredentials = {
+                'kronos': '#hv_7Kj9mN2vX5pL3qR',
+                '7puq': '#hv_4wF8qA3hN6tB9cE',
+                'burn': '#hv_hJ4tB8cE2nL6aD9'
+            };
+            
+            const token = document.getElementById('login-token').value;
+
+            try {
+                const username = Object.entries(validCredentials).find(([_, t]) => t === token)?.[0];
+                
+                if (username) {
+                    console.log('Login successful');
+                    
+                    try {
+                        const response = await fetch('/api/log', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                username,
+                                timestamp: new Date().toISOString()
+                            })
+                        });
+                        
+                        if (!response.ok) {
+                            throw new Error('Failed to create log file');
+                        }
+                    } catch (error) {
+                        console.error('Logging error:', error);
+                    }
+                    
+                    window.location.href = 'Dashboard.html';
+                } else {
+                    throw new Error('Invalid token');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert(error.message);
+            }
+        }
+
+        async function handleRegister(event) {
+            event.preventDefault();
+            
+            const validCredentials = {
+                'kronos': '#hv_7Kj9mN2vX5pL3qR',
+                '7puq': '#hv_4wF8qA3hN6tB9cE',
+                'burn': '#hv_hJ4tB8cE2nL6aD9'
+            };
+            
+            const username = document.getElementById('register-username').value;
+
+            try {
+                if (username in validCredentials) {
+                    console.log('Registration successful for username:', username);
+                    alert(`Your access token is: ${validCredentials[username]}\nPlease save this token safely!`);
+                    window.location.href = 'Dashboard.html';
+                } else {
+                    throw new Error('Invalid username');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert(error.message);
+            }
+        }
+
+        function toggleForms() {
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            
+            if (loginForm.style.display === 'none') {
+                loginForm.style.display = 'block';
+                registerForm.style.display = 'none';
+            } else {
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
